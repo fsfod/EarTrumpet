@@ -169,7 +169,7 @@ namespace EarTrumpet
                     IsEnabled = false,
                 });
             }
-
+      
             ret.AddRange(new List<ContextMenuItem>
                 {
                     new ContextMenuSeparator(),
@@ -193,6 +193,14 @@ namespace EarTrumpet
             {
                 ret.AddRange(addonItems);
                 ret.Add(new ContextMenuSeparator());
+            }
+
+            var deviceManager = _collectionViewModel.Default._deviceManager as DataModel.WindowsAudio.Internal.AudioDeviceManager;
+            var enabledLoudness = deviceManager.GetLoudnessEqEnabled(deviceManager.Default);
+
+            if (enabledLoudness.HasValue) {
+                ret.Add(new ContextMenuItem { DisplayName = "Loudness", IsChecked = enabledLoudness.Value, 
+                        Command = new RelayCommand(() => deviceManager.SetLoudnessEqEnabled(deviceManager.Default, !enabledLoudness.Value))});
             }
 
             ret.AddRange(new List<ContextMenuItem>

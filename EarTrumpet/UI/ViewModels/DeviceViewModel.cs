@@ -54,7 +54,7 @@ namespace EarTrumpet.UI.ViewModels
         }
 
         protected readonly IAudioDevice _device;
-        protected readonly IAudioDeviceManager _deviceManager;
+        internal readonly IAudioDeviceManager _deviceManager;
         protected readonly WeakReference<DeviceCollectionViewModel> _parent;
         private bool _isDisplayNameVisible;
         private DeviceIconKind _iconKind;
@@ -222,6 +222,7 @@ namespace EarTrumpet.UI.ViewModels
 
         public void MakeDefaultDevice() => _deviceManager.Default = _device;
         public void IncrementVolume(int delta) => Volume += delta;
+
         public override string ToString() => string.Format(IsMuted ? Properties.Resources.AppOrDeviceMutedFormatAccessibleText : Properties.Resources.AppOrDeviceFormatAccessibleText, DisplayName, Volume);
     }
 }

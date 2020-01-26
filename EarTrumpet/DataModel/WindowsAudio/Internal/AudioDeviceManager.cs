@@ -136,6 +136,57 @@ namespace EarTrumpet.DataModel.WindowsAudio.Internal
             }
         }
 
+        static readonly Guid guidEnhancements = new Guid("E0A941A0-88A2-4df5-8D6B-DD20BB06E8FB");
+        const int propLoudnessEqualization = 4;
+
+        public bool? GetLoudnessEqEnabled(IAudioDevice device) {
+            TraceLine($"GetLoudnessEqEnabled {device.Id}");
+
+            if (s_PolicyConfigClient == null) {
+                s_PolicyConfigClient = new AutoPolicyConfigClientWin7();
+            }
+
+            try {
+                var value = new PropVariant();
+                s_PolicyConfigClient.GetPropertyValue(device.Id, true, guidEnhancements, propLoudnessEqualization, ref value);
+                return value.intVal != 0;
+            } catch (Exception ex) {
+                TraceLine($"{ex}");
+                return null;
+            }
+        }
+
+        public void SetFxProperty(IAudioDevice device, Guid formatId, uint propertyId, PropVariant value) {
+            TraceLine($"SetFxProperty {device.Id} {formatId}-{propertyId} {value.varType}");
+
+            if (s_PolicyConfigClient == null) {
+                s_PolicyConfigClient = new AutoPolicyConfigClientWin7();
+            }
+
+            try {
+                s_PolicyConfigClient.SetPropertyValue(device.Id, true, formatId, propertyId, value);
+            } catch (Exception ex) {
+                TraceLine($"{ex}");
+            }
+        }
+
+        public void SetLoudnessEqEnabled(IAudioDevice device, bool enabled) {
+            TraceLine($"GetLoudnessEqEnabled {device.Id}");
+
+            if (s_PolicyConfigClient == null) {
+                s_PolicyConfigClient = new AutoPolicyConfigClientWin7();
+            }
+
+            try {
+                var value = new PropVariant();
+                value.varType = System.Runtime.InteropServices.VarEnum.VT_UI4;
+                value.intVal = enabled ? 1 : 0;
+                s_PolicyConfigClient.SetPropertyValue(device.Id, true, guidEnhancements, propLoudnessEqualization, value);
+            } catch (Exception ex) {
+                TraceLine($"{ex}");
+            }
+        }
+
         public IAudioDevice GetDefaultDevice(ERole eRole = ERole.eMultimedia)
         {
             try

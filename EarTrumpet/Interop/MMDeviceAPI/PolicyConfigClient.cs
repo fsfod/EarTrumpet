@@ -20,5 +20,22 @@ namespace EarTrumpet.Interop.MMDeviceAPI
         {
             _policyClient.SetDefaultEndpoint(deviceId, role);
         }
+
+        public void GetPropertyValue(string deviceId, bool fx, Guid formatId, uint propertyId, ref PropVariant value) {
+
+            var key = new PROPERTYKEY() {
+                fmtid = formatId,
+                pid = (UIntPtr)propertyId
+            };
+            _policyClient.GetPropertyValue(deviceId, fx, ref key, ref value);
+        }
+
+        internal void SetPropertyValue(string deviceId, bool fx, Guid formatId, uint propertyId, PropVariant value) {
+            var key = new PROPERTYKEY() {
+                fmtid = formatId,
+                pid = (UIntPtr)propertyId
+            };
+            _policyClient.SetPropertyValue(deviceId, fx, ref key, ref value);
+        }
     }
 }
