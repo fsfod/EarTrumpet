@@ -18,8 +18,8 @@ namespace EarTrumpet.Interop.MMDeviceAPI
         void Unused6();
         void Unused7();
         void Unused8();
-        void GetPropertyValue([MarshalAs(UnmanagedType.LPWStr)]string wszDeviceId, ref PROPERTYKEY pkey, ref PropVariant pv);
-        void SetPropertyValue([MarshalAs(UnmanagedType.LPWStr)]string wszDeviceId, ref PROPERTYKEY pkey, ref PropVariant pv);
+        void GetPropertyValue([MarshalAs(UnmanagedType.LPWStr)]string wszDeviceId, [MarshalAs(UnmanagedType.Bool)] bool bFxStore, ref PROPERTYKEY pkey, ref PropVariant pv);
+        void SetPropertyValue([MarshalAs(UnmanagedType.LPWStr)]string wszDeviceId, [MarshalAs(UnmanagedType.Bool)] bool bFxStore, ref PROPERTYKEY pkey, ref PropVariant pv);
         void SetDefaultEndpoint([MarshalAs(UnmanagedType.LPWStr)]string wszDeviceId, ERole eRole);
         void SetEndpointVisibility([MarshalAs(UnmanagedType.LPWStr)]string wszDeviceId, [MarshalAs(UnmanagedType.I2)]short isVisible);
     }
