@@ -130,7 +130,7 @@ jobs:
           $manifest.Save($manifestPath)
 
       - name: Upload appinstaller/sideload package artifacts
-        if: matrix.channel == 'AppInstaller'
+        if: matrix.channel == 'AppInstaller' 
         uses: actions/upload-artifact@v1.0.0
         with:
           name: sideload
